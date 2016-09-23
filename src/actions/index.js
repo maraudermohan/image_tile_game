@@ -1,6 +1,18 @@
-export const action = (state) => {
+export const updateRowCol = (rowLength, colLength, tileWidth, tileHeight) => {
   return {
-    type: 'action_type',
-    state
+    type: 'UPDATE_ROW_COL',
+    rowLength, 
+    colLength, 
+    tileWidth, 
+    tileHeight
   };
 }
+export const updateTileParams = (index, topCounter, leftCounter) => {
+  return {
+    type: 'UPDATE_TILE_PARAMS',
+    index,
+    topCounter,
+    leftCounter
+  };
+}
+

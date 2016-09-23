@@ -1,16 +1,17 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-//import rootReducer from './reducers'
-//import App from './components/App'
-//import styles from './styles/style.css'
+import configureStore from './store/configureStore';
+import App from './components/App'
+import todoApp from './reducers'
+import './styles/tile_core.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
-let store = createStore()
+const store = configureStore();
 
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+	<Provider store={store}>
+		<App />
+	</Provider>,
   document.getElementById('root')
 )
