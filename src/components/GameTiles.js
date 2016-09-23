@@ -6,6 +6,15 @@ class GameTiles extends React.Component {
   constructor(props, context) {
     super(props, context);
   }
+  renderTile(value , index) {
+    var position = {
+      top : this.props.tiles[value].top,
+      left : this.props.tiles[value].left,
+      width : this.props.params.tileWidth,
+      height : this.props.params.tileHeight
+    }
+    return <span key={index} data-key={value} className="game-tile" style={position}></span>
+  }
   moveLeftEvent() {
     var elm = document.getElementsByClassName("left")[0],
         left = getComputedStyle(elm).getPropertyValue("left");
@@ -17,36 +26,9 @@ class GameTiles extends React.Component {
     this.props.dispatch(actions.moveTop(parseInt(top,10)+100));
   }
   render() {
-    var position = {
-      top:this.props.top,
-      left:this.props.left
-    };
     return (
-      <div className="well game-area">
-            <span className="game-tile left" style={position} onClick={this.moveLeftEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
-            <span className="game-tile top" style={position} onClick={this.moveTopEvent.bind(this,event)}></span>
+      <div>
+        { Object.keys(this.props.tiles).map(this.renderTile.bind(this)) }
       </div>
     );
   }
@@ -57,8 +39,8 @@ GameTiles.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    top : state.top,
-    left : state.left
+    params : state.params,
+    tiles : state.tiles
   };
 }
 

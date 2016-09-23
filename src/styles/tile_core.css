@@ -26,8 +26,7 @@ div.game-area {
 }
 .game-tile {
 	display: inline-block;
-	width: 178px;
-	height: 200px;
+	position: absolute;
 	background-color: blue;
 	border-radius: 5px;
 	border: thin solid black;

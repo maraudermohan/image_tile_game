@@ -39,9 +39,6 @@ class App extends React.Component {
   }
 
   render() {
-    for(var i = 1; i < 35; i++) {
-      console.log(this.props.tiles[i]);
-    }
     return (
       <div className="flex-container game-area-container">
         <div className="well game-area flex-item">
@@ -57,8 +54,7 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    params : state.params,
-    tiles : state.tiles
+    params : state.params
   };
 }
 
