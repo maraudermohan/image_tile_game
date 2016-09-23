@@ -16,3 +16,10 @@ export const updateTileParams = (index, topCounter, leftCounter) => {
   };
 }
 
+
+export const update_list = (content) => {
+  return {
+    type: 'UPDATE_LIST',
+    content
+  };
+}

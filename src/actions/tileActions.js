@@ -1,28 +1,15 @@
-export const moveLeft = (content) => {
+export const moveTile = (index, top, left) => {
   return {
-    type: 'MOVE_LEFT',
-    content
+    type: 'MOVE_TILE',
+    index,
+    top,
+    left
   };
 }
 
-export const moveRight = (content) => {
+export const update_list = (content) => {
   return {
-    type: 'MOVE_RIGHT',
+    type: 'UPDATE_LIST',
     content
   };
 }
-
-export const moveTop = (content) => {
-  return {
-    type: 'MOVE_TOP',
-    content
-  };
-}
-
-export const moveBottom = (content) => {
-  return {
-    type: 'MOVE_BOTTOM',
-    content
-  };
-}
-

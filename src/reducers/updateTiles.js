@@ -5,8 +5,10 @@ export default function updateTiles(state = [], action) {
   		obj[action.index] = {top : action.topCounter, left : action.leftCounter} 
   		return obj;
 
-  	case 'MOVE_TOP':
-  		return action.content;
+  	case 'MOVE_TILE':
+  		var obj = Object.assign({}, state);
+      obj[action.index] = {top : action.top, left : action.left} 
+      return obj;
 
     default:
       return state;
