@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "description": "Game built over Starter kit by Cory House",
   "scripts": {
-    "start": "npm-run-all --parallel test:watch open:src lint:watch",
+    "start": "babel-node tools/srcServer.js",
     "open:src": "babel-node tools/srcServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
