@@ -1,5 +1,20 @@
 #Picture-Tile Game in React + Redux + ES6 using [Pluralsight Starter kit](http://www.pluralsight.com/author/cory-house). 
 
+
+##Summary
+* I implemented this picture tile game using React + Redux.
+* Completed the coding and testing in span of a week.
+* Authored two child components - game-area and game-tile.
+* The top and left offset are the main states handled by the store.
+* Each tile's width and height are also initiated in the store.
+* Location of the empty-slot is updated and maintained by reducers.
+* Implemented an auto-shuffling feature for the tiles, using a click event.
+* Implemented the feature to choose from 6 different images or import an image from an external link.
+* Added info banners to indicate the current status of the game.
+* Added the reset feature by resetting the store and re-initializing the app's state values.
+* Game-area's parameters are tweaked to fit the image's aspect ratio.
+
+
 ##Production Dependencies
 | **Dependency** | **Use** |
 |----------|-------|
