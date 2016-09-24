@@ -25,7 +25,6 @@ app.listen(port, function(err) {
   if (err) {
     console.log(err);
   } else {
-    console.log("YAAY APP STARTED WITH PORT: ", port);
     open(`http://localhost:${port}`);
   }
 });
