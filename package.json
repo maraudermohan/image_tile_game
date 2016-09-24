@@ -23,7 +23,9 @@
     "react-router-redux": "4.0.4",
     "redux": "3.6.0",
     "redux-thunk": "2.0.1",
-    "toastr": "2.1.2",
+    "toastr": "2.1.2"
+  },
+  "devDependencies": {
     "babel-cli": "6.8.0",
     "babel-core": "6.8.0",
     "babel-loader": "6.2.4",
@@ -60,8 +62,6 @@
     "webpack": "1.13.0",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.10.0"
-  },
-  "devDependencies": {
   },
   "repository": {
     "type": "git",
