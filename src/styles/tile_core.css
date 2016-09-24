@@ -25,13 +25,44 @@ div.game-area {
 	position: relative;
 }
 .game-tile {
+	text-align: center;
+	color: white;
 	display: inline-block;
 	position: absolute;
 	background-color: blue;
 	border-radius: 5px;
 	border: thin solid black;
 	line-height: 0;
+}
+.game-area.not-ready .game-tile {
+	-webkit-transition: left 0.05s, top 0.05s;
+	-moz-transition: left 0.05s, top 0.05s;
+	transition: left 0.05s, top 0.05s;
+}
+.game-area.ready .game-tile {
 	-webkit-transition: left 0.25s, top 0.25s;
 	-moz-transition: left 0.25s, top 0.25s;
 	transition: left 0.25s, top 0.25s;
+}
+.game-tile.empty {
+	display: inline-block;
+	position: absolute;
+	width: 0px;
+	height: 0px;
+	border: 0px;
+	line-height: 0;
+}
+.game-win {
+	width: 100%;
+	height: 50%;
+	top: 25%;
+	text-align: center;
+	color: white;
+	text-shadow: 1px 1px 1px #000000;
+	position: absolute;
+	background-color: limegreen;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	align-items: center;
 }

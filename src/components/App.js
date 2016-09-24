@@ -8,7 +8,7 @@ class App extends React.Component {
     super(props, context);
   }
 
-  componentDidMount() {
+  resetGame() {
     var elm = document.getElementsByClassName("game-area")[0],
         width = getComputedStyle(elm).getPropertyValue("width"),
         height = getComputedStyle(elm).getPropertyValue("height"),
@@ -25,7 +25,7 @@ class App extends React.Component {
     colLength = Math.floor(temp);
     tileWidth = Math.floor(width/rowLength);
     tileHeight = Math.floor(height/colLength);
-    this.props.dispatch(actions.updateRowCol(rowLength, colLength, tileWidth, tileHeight));
+    this.props.dispatch(actions.updateRowCol(rowLength, colLength, tileWidth, tileHeight,width,height,5,false));
     for(var counter = 1; counter < (rowLength*colLength); counter++) {
         this.props.dispatch(actions.updateTileParams(counter,topCounter,leftCounter));
         arr.push(counter);
@@ -37,17 +37,18 @@ class App extends React.Component {
           leftCounter += tileWidth;
         }
     }
-    arr.push(0);
+    arr.push(rowLength*colLength);
     this.props.dispatch(actions.update_list(arr));
+  }
 
+  componentDidMount() {
+    this.resetGame();
   }
 
   render() {
     return (
-      <div className="flex-container game-area-container">
-        <div className="well game-area flex-item">
-              <GameTiles />
-        </div>
+      <div className="well game-area not-ready flex-item">
+          <GameTiles resetGame={this.resetGame.bind(this)}/>
       </div>
     );
   }
