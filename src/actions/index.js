@@ -28,10 +28,25 @@ export const update_list = (content) => {
   };
 }
 
+export const moveTile = (index, top, left) => {
+  return {
+    type: 'MOVE_TILE',
+    index,
+    top,
+    left
+  };
+}
+
 export const decrementCounter = (counter) => {
   return {
     type: 'DECREMENT_COUNTER',
     counter
+  };
+}
+
+export const log_out = () => {
+  return {
+    type: 'LOG_OUT'
   };
 }
 

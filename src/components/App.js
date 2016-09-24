@@ -1,54 +1,98 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/index.js';
-import GameTiles from './GameTiles.js';
+import GameArea from './GameArea.js';
 
 class App extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      links : [ 'http://www.moreaboutmohan.com/files/assets/photo22.jpg',
+                'http://www.moreaboutmohan.com/files/assets/photo24.jpg',
+                'http://www.moreaboutmohan.com/files/assets/photo18.jpg',
+                'http://www.moreaboutmohan.com/files/assets/photo13.jpg',
+                'http://www.moreaboutmohan.com/files/assets/photo9.jpg',
+                'http://www.moreaboutmohan.com/files/assets/photo7.jpg' ],
+      isGameAreaReady : false,
+      url : '' ,
+      imgWidth : 0,
+      imgHeight : 0
+    }
   }
 
   resetGame() {
-    var elm = document.getElementsByClassName("game-area")[0],
-        width = getComputedStyle(elm).getPropertyValue("width"),
-        height = getComputedStyle(elm).getPropertyValue("height"),
-        rowLength, colLength, tileWidth, tileHeight, topCounter = 0, leftCounter = 0, arr= [];
-    width = parseInt(width,10);
-    height = parseInt(height,10);
-    var temp = height/width*6;
-    if((temp - Math.floor(temp)) < 0.4) {
-      rowLength = 6;
-    } else {
-      temp = height/width*7;
-      rowLength = 7;
-    }
-    colLength = Math.floor(temp);
-    tileWidth = Math.floor(width/rowLength);
-    tileHeight = Math.floor(height/colLength);
-    this.props.dispatch(actions.updateRowCol(rowLength, colLength, tileWidth, tileHeight,width,height,5,false));
-    for(var counter = 1; counter < (rowLength*colLength); counter++) {
-        this.props.dispatch(actions.updateTileParams(counter,topCounter,leftCounter));
-        arr.push(counter);
-        if ((counter%rowLength) == 0) {
-          topCounter += tileHeight;
-          leftCounter = 0;
-        }
-        else {
-          leftCounter += tileWidth;
-        }
-    }
-    arr.push(rowLength*colLength);
-    this.props.dispatch(actions.update_list(arr));
+    this.setState({isGameAreaReady : false,
+      url : '' ,
+      imgWidth : 0,
+      imgHeight : 0 
+    });
+    document.getElementsByClassName("inputURL")[0].value = "";
+    document.getElementsByClassName("disappear")[0].style.display = "block";
+    document.getElementsByClassName("disappear")[1].style.display = "block";
   }
 
-  componentDidMount() {
-    this.resetGame();
+  disableBtn() {
+    return (this.state.url.length)? false : true;
+  }
+
+  changeHandler(event) {
+    this.setState({url : event.target.value});
+  }
+
+  imageOptions(value , index) {
+    if(!this.state.isGameAreaReady) {
+      var position = {
+        backgroundImage : "url("+value+")"
+      }
+      return <span key={index} data-url={value} className="image-item" style={position} onClick={this.imageClickHandler.bind(this,value)}></span>
+    }
+  }
+
+  imageClickHandler(url) {
+    var setState = this.setState.bind(this),
+    img = new Image();
+    img.onload = function() {
+      setState({isGameAreaReady : true,
+        url : url ,
+        imgWidth : this.width,
+        imgHeight : this.height
+      });
+    }
+    img.src = url;
+    document.getElementsByClassName("disappear")[0].style.display = "none";
+    document.getElementsByClassName("disappear")[1].style.display = "none";
+  }
+
+  renderGameArea() {
+    if(this.state.isGameAreaReady) {
+      return <GameArea 
+              resetGame={this.resetGame.bind(this)} 
+              url={this.state.url} 
+              imgHeight={this.state.imgHeight} 
+              imgWidth={this.state.imgWidth} 
+              />;
+    }
   }
 
   render() {
     return (
-      <div className="well game-area not-ready flex-item">
-          <GameTiles resetGame={this.resetGame.bind(this)}/>
+      <div>
+          <h4 className="disappear">Pick an image or enter an external url :</h4>
+          <div className="disappear">
+              <input
+                type="text"
+                className="inputURL"
+                placeholder="www.location.com"
+                onChange={this.changeHandler.bind(this)} />
+              <input
+                type="submit"
+                disabled={this.disableBtn()}
+                value="Import"
+                className="btn btn-primary"
+                onClick={this.imageClickHandler.bind(this,this.state.url)} />
+          </div>
+          {this.state.links.map(this.imageOptions.bind(this)) }
+          {this.renderGameArea()}
       </div>
     );
   }
