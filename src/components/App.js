@@ -92,7 +92,7 @@ class App extends React.Component {
       timeRemaining = mins+":"+secs;
     }
     return (
-      <div>
+      <div className="appContainer">
           <div className="disappear">
               <h4>Pick an image below or import one with url :<br/><br/></h4>
               <input
