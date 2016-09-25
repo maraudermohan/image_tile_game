@@ -1,9 +1,10 @@
 {
-  "name": "picture-tile-game",
-  "version": "1.3.0",
+  "name": "image-tile-game",
+  "version": "2.0.0",
   "description": "Game built over Starter kit by Cory House",
   "scripts": {
-    "start": "babel-node tools/srcServer.js",
+    "prestart": "babel-node tools/startMessage.js",
+    "start": "npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",

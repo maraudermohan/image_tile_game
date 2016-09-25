@@ -8,7 +8,6 @@ class GameTiles extends React.Component {
   }
 
   resetGame() {
-    this.props.dispatch(actions.log_out());
     this.props.resetGame();
   }
 
@@ -28,7 +27,7 @@ class GameTiles extends React.Component {
         width : this.props.params.tileWidth,
         height : this.props.params.tileHeight,
         backgroundPosition : "-"+this.props.tiles[value].left +"px -"+ this.props.tiles[value].top + "px",
-        backgroundImage : "url("+ this.props.url +")",
+        backgroundImage : "url("+ this.props.params.url +")",
         backgroundSize : this.props.params.width+"px "+this.props.params.height+"px"
       },
       index0 = this.props.list.indexOf(this.props.params.rowLength*this.props.params.colLength),
@@ -119,7 +118,7 @@ class GameTiles extends React.Component {
     var clickableTiles = [],
     min = 0, 
     max, 
-    currentTile
+    currentTile;
     this.shuffleCounter = parseInt(this.props.params.shuffleCounter,10);
     if(document.getElementsByClassName("left")[0]) {
       clickableTiles.push(this.moveLeftEvent.bind(this));
@@ -145,22 +144,28 @@ class GameTiles extends React.Component {
       this.shuffleTile();
     } else if (this.shuffleCounter == 0) {
       this.props.dispatch(actions.toggleGameReady());
+      this.props.dispatch(actions.ackwldgeTimer(true));
+      this.props.dispatch(actions.updateTimer(5,1));
+      document.getElementsByClassName("timerh3")[0].style.display = "inline-block";
       this.props.dispatch(actions.decrementCounter(this.shuffleCounter-1));
       document.getElementsByClassName("game-area")[0].classList.remove("not-ready");
       document.getElementsByClassName("game-area")[0].classList.add("ready");
     }
   }
+
+  stopTimer() {
+    this.props.dispatch(actions.updateTimer(0,0));
+  }
   
   gameConditionCheck() {
     var sortedList = [...this.props.list].sort((a,b) => (a-b));
-    if((this.props.params.isGameReady)&&(JSON.stringify(this.props.list) === JSON.stringify(sortedList))) {
-      return <div className="game-win flex-container" onClick={this.resetGame.bind(this)}><h1 className="flex-items">You Win!</h1></div>
-    }
-  }
-
-  shufflingCheck() {
     if(!(this.props.params.isGameReady)) {
-      return <div className="shuffle-on flex-container"><h1 className="flex-items">Shuffling! Ready in {this.props.params.shuffleCounter}...</h1></div>
+      return <div className="game-banner shuffle flex-container"><h1 className="flex-items">Shuffling!<br/><br/>Ready in {this.props.params.shuffleCounter}...</h1></div>
+    } else if((this.props.params.isGameReady)&&(JSON.stringify(this.props.list) === JSON.stringify(sortedList))) {
+      setTimeout(function() {document.getElementsByClassName("stoptimer")[0].click()},50);
+      return <div className="game-banner win flex-container" onClick={this.resetGame.bind(this)}><h1 className="flex-items">Puzzle solved!<br/><br/>You Win.</h1></div>
+    } else if((this.props.params.isGameReady)&&(!this.props.params.timer.length)&&(JSON.stringify(this.props.list) != JSON.stringify(sortedList))) {
+      return <div className="game-banner lose flex-container" onClick={this.resetGame.bind(this)}><h1 className="flex-items">Time's up!<br/><br/>You Lose.</h1></div>
     }
   }
 
@@ -169,15 +174,12 @@ class GameTiles extends React.Component {
       <div>
         { Object.keys(this.props.tiles).map(this.renderTile.bind(this)) }
         <span className="game-tile empty" onClick={this.shuffleManager.bind(this)}></span>
-        {this.shufflingCheck()}
+        <span className="game-tile empty stoptimer" onClick={this.stopTimer.bind(this)}></span>
         {this.gameConditionCheck()}
       </div>
     );
   }
 }
-
-GameTiles.propTypes = {
-};
 
 function mapStateToProps(state) {
   return {

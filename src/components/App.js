@@ -7,28 +7,16 @@ class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      links : [ 'http://www.moreaboutmohan.com/files/assets/photo22.jpg',
-                'http://www.moreaboutmohan.com/files/assets/photo24.jpg',
-                'http://www.moreaboutmohan.com/files/assets/photo18.jpg',
-                'http://www.moreaboutmohan.com/files/assets/photo13.jpg',
-                'http://www.moreaboutmohan.com/files/assets/photo9.jpg',
-                'http://www.moreaboutmohan.com/files/assets/photo7.jpg' ],
-      isGameAreaReady : false,
-      url : '' ,
-      imgWidth : 0,
-      imgHeight : 0
+      url : ''
     }
   }
-
+  //Resets the state values for a new game
   resetGame() {
-    this.setState({isGameAreaReady : false,
-      url : '' ,
-      imgWidth : 0,
-      imgHeight : 0 
-    });
+    this.props.dispatch(actions.log_out());
     document.getElementsByClassName("inputURL")[0].value = "";
     document.getElementsByClassName("disappear")[0].style.display = "block";
-    document.getElementsByClassName("disappear")[1].style.display = "block";
+    document.getElementsByClassName("reset-btn")[0].style.display = "none";
+    document.getElementsByClassName("timerh3")[0].style.display = "none";
   }
 
   disableBtn() {
@@ -38,51 +26,79 @@ class App extends React.Component {
   changeHandler(event) {
     this.setState({url : event.target.value});
   }
-
+  //returns an array of spans-with-images as choices for the puzzle
   imageOptions(value , index) {
-    if(!this.state.isGameAreaReady) {
+    if(!this.props.params.isImageSelected) {
       var position = {
         backgroundImage : "url("+value+")"
       }
       return <span key={index} data-url={value} className="image-item" style={position} onClick={this.imageClickHandler.bind(this,value)}></span>
     }
   }
-
+  //Once an image choice is picked, updates the state and renders the GameArea
   imageClickHandler(url) {
-    var setState = this.setState.bind(this),
+    var dispatch = this.props.dispatch.bind(this),
     img = new Image();
     img.onload = function() {
-      setState({isGameAreaReady : true,
-        url : url ,
-        imgWidth : this.width,
-        imgHeight : this.height
-      });
+      var winWidth = document.documentElement.clientWidth,
+        ratio = this.width/this.height,
+        width = (winWidth > 809)? 810 : (winWidth > 639)? 640 : 320,
+        height = Math.floor(width/ratio);
+      dispatch(actions.image_selected(true, url, width, height));
     }
     img.src = url;
     document.getElementsByClassName("disappear")[0].style.display = "none";
-    document.getElementsByClassName("disappear")[1].style.display = "none";
+    document.getElementsByClassName("reset-btn")[0].style.display = "inline-block";
   }
 
+  componentDidUpdate() {
+    if(this.props.params.hasTimerStarted) {
+      this.props.dispatch(actions.ackwldgeTimer(false));
+      this.timerDisplay();
+    }
+  }
+
+  timerDisplay() {
+      var secs = this.props.params.timer[1] - 1,
+          mins = this.props.params.timer[0];
+      if((secs == -1)&&(mins > 0)) {
+        secs = 59;
+        mins -= 1;
+      }
+      if(mins < 1) {
+        document.getElementsByClassName("timerh3")[0].classList.toggle('red');
+      }
+      if(this.props.params.timer.length){
+        this.props.dispatch(actions.updateTimer(mins,secs));
+        setTimeout(this.timerDisplay.bind(this),1000,true);
+      }
+  }
+  //Render game area with the chosen-image's properties
   renderGameArea() {
-    if(this.state.isGameAreaReady) {
+    if(this.props.params.isImageSelected) {
       return <GameArea 
-              resetGame={this.resetGame.bind(this)} 
-              url={this.state.url} 
-              imgHeight={this.state.imgHeight} 
-              imgWidth={this.state.imgWidth} 
+              resetGame={this.resetGame.bind(this)}
               />;
     }
   }
 
   render() {
+    var timeRemaining = '',
+        timerClassName = 'timerh3'
+    if(this.props.params.timer.length) {
+      var mins = this.props.params.timer[0] < 10 ? "0" + this.props.params.timer[0] : this.props.params.timer[0];
+      timerClassName += this.props.params.timer[0] < 1 ? " red" : '';
+      var secs = this.props.params.timer[1] < 10 ? "0" + this.props.params.timer[1] : this.props.params.timer[1];
+      timeRemaining = mins+":"+secs;
+    }
     return (
       <div>
-          <h4 className="disappear">Pick an image or enter an external url :</h4>
           <div className="disappear">
+              <h4>Pick an image below or import one with url :<br/><br/></h4>
               <input
                 type="text"
                 className="inputURL"
-                placeholder="www.location.com"
+                placeholder="http://www.image.url"
                 onChange={this.changeHandler.bind(this)} />
               <input
                 type="submit"
@@ -90,16 +106,22 @@ class App extends React.Component {
                 value="Import"
                 className="btn btn-primary"
                 onClick={this.imageClickHandler.bind(this,this.state.url)} />
+                <h4><br/><br/>OR</h4>
           </div>
-          {this.state.links.map(this.imageOptions.bind(this)) }
+          <div className="appear flex-container">
+              <input
+                type="submit"
+                value="Reset"
+                className="btn btn-primary reset-btn"
+                onClick={this.resetGame.bind(this)} />
+              <h1 className={timerClassName}>{timeRemaining}</h1>
+          </div>
+          {this.props.params.links.map(this.imageOptions.bind(this)) }
           {this.renderGameArea()}
       </div>
     );
   }
 }
-
-App.propTypes = {
-};
 
 function mapStateToProps(state) {
   return {
