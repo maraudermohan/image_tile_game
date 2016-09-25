@@ -1,4 +1,4 @@
-#Image-Tile Game in React + Redux + ES6 #### using [Pluralsight Starter kit](http://www.pluralsight.com/author/cory-house). 
+#Image-Tile Game in React + Redux + ES6
 
 #[Open App](https://image-tile-game.herokuapp.com/)
 
@@ -15,6 +15,7 @@
 * Added the reset feature by resetting the store and re-initializing the app's state values.
 * Game-area's parameters are tweaked to fit the image's aspect ratio.
 * Added a countdown timer and loser state.
+* This was built on using [Pluralsight Starter kit](http://www.pluralsight.com/author/cory-house). 
 
 
 ##Production Dependencies
