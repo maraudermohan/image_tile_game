@@ -17,6 +17,7 @@ class App extends React.Component {
     document.getElementsByClassName("disappear")[0].style.display = "block";
     document.getElementsByClassName("reset-btn")[0].style.display = "none";
     document.getElementsByClassName("timerh3")[0].style.display = "none";
+    document.getElementsByClassName("timerh3")[0].style.display = "none";
   }
 
   disableBtn() {
@@ -56,8 +57,23 @@ class App extends React.Component {
       this.props.dispatch(actions.ackwldgeTimer(false));
       this.timerDisplay();
     }
+    if((!this.props.params.timer.length)&&
+    (document.getElementsByClassName("pause-btn")[0].style.display == "inline-block")) {
+      document.getElementsByClassName("pause-btn")[0].style.display = "none";
+      document.getElementsByClassName("timerh3")[0].style.display = "none";
+    }
   }
-
+  //toggle isNotPaused boolean value
+  togglePause() {
+    this.props.dispatch(actions.toggle_pause(!this.props.params.isNotPaused));
+    if(this.props.params.isNotPaused){
+      document.getElementsByClassName('pause-btn')[0].classList.add("resume");
+    } else {
+      document.getElementsByClassName('pause-btn')[0].classList.remove("resume");
+      this.props.dispatch(actions.ackwldgeTimer(true));
+    }
+  }
+  //countdown timer
   timerDisplay() {
       var secs = this.props.params.timer[1] - 1,
           mins = this.props.params.timer[0];
@@ -68,7 +84,7 @@ class App extends React.Component {
       if(mins < 1) {
         document.getElementsByClassName("timerh3")[0].classList.toggle('red');
       }
-      if(this.props.params.timer.length){
+      if((this.props.params.timer.length)&&(this.props.params.isNotPaused)){
         this.props.dispatch(actions.updateTimer(mins,secs));
         setTimeout(this.timerDisplay.bind(this),1000,true);
       }
@@ -106,15 +122,19 @@ class App extends React.Component {
                 value="Import"
                 className="btn btn-primary"
                 onClick={this.imageClickHandler.bind(this,this.state.url)} />
-                <h4><br/><br/>OR</h4>
+                <h4><br/>OR</h4>
           </div>
           <div className="appear flex-container">
               <input
                 type="submit"
-                value="Reset"
+                value="Back"
                 className="btn btn-primary reset-btn"
                 onClick={this.resetGame.bind(this)} />
               <h1 className={timerClassName}>{timeRemaining}</h1>
+              <span className="pause-btn flex-container" onClick={this.togglePause.bind(this)}>
+                <span className="icon-pause pause1"></span>
+                <span className="icon-pause pause2"></span>
+              </span>
           </div>
           {this.props.params.links.map(this.imageOptions.bind(this)) }
           {this.renderGameArea()}

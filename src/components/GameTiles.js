@@ -57,12 +57,16 @@ class GameTiles extends React.Component {
     left = getComputedStyle(elm).getPropertyValue("left"),
     arr = [...this.props.list],temp;
     left = parseInt(left,10) - this.props.params.tileWidth;
-    this.props.dispatch(actions.moveTile(id,top,left));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.moveTile(id,top,left));
+    }
     id = this.props.list.indexOf(parseInt(id,10));
     temp = arr[id];
     arr[id] = arr[id-1];
     arr[id-1] = temp;
-    this.props.dispatch(actions.update_list(arr));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.update_list(arr));
+    }
   }
 
   moveRightEvent() {
@@ -72,12 +76,16 @@ class GameTiles extends React.Component {
     left = getComputedStyle(elm).getPropertyValue("left"),
     arr = [...this.props.list],temp;
     left = parseInt(left,10) + this.props.params.tileWidth;
-    this.props.dispatch(actions.moveTile(id,top,left));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.moveTile(id,top,left));
+    }
     id = this.props.list.indexOf(parseInt(id,10));
     temp = arr[id];
     arr[id] = arr[id+1];
     arr[id+1] = temp;
-    this.props.dispatch(actions.update_list(arr));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.update_list(arr));
+    }
   }
 
   moveTopEvent() {
@@ -88,13 +96,17 @@ class GameTiles extends React.Component {
     arr = [...this.props.list],temp,id2,
     row = this.props.params.rowLength;
     top = parseInt(top,10) - this.props.params.tileHeight;
-    this.props.dispatch(actions.moveTile(id,top,left));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.moveTile(id,top,left));
+    }
     id = this.props.list.indexOf(parseInt(id,10));
     id2 = (Math.floor(id/row)-1)*row + (id%row);
     temp = arr[id];
     arr[id] = arr[id2];
     arr[id2] = temp;
-    this.props.dispatch(actions.update_list(arr));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.update_list(arr));
+    }
   }
 
   moveBottomEvent() {
@@ -105,13 +117,17 @@ class GameTiles extends React.Component {
     arr = [...this.props.list],temp,id2,
     row = this.props.params.rowLength;
     top = parseInt(top,10) + this.props.params.tileHeight;
-    this.props.dispatch(actions.moveTile(id,top,left));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.moveTile(id,top,left));
+    }
     id = this.props.list.indexOf(parseInt(id,10));
     id2 = (Math.floor(id/row)+1)*row + (id%row);
     temp = arr[id];
     arr[id] = arr[id2];
     arr[id2] = temp;
-    this.props.dispatch(actions.update_list(arr));
+    if(this.props.params.isNotPaused) {
+      this.props.dispatch(actions.update_list(arr));
+    }
   }
 
   shuffleTile() {
@@ -147,6 +163,7 @@ class GameTiles extends React.Component {
       this.props.dispatch(actions.ackwldgeTimer(true));
       this.props.dispatch(actions.updateTimer(5,1));
       document.getElementsByClassName("timerh3")[0].style.display = "inline-block";
+      document.getElementsByClassName("pause-btn")[0].style.display = "inline-block";
       this.props.dispatch(actions.decrementCounter(this.shuffleCounter-1));
       document.getElementsByClassName("game-area")[0].classList.remove("not-ready");
       document.getElementsByClassName("game-area")[0].classList.add("ready");

@@ -12,5 +12,6 @@ export default {
 	width : 0,
 	height : 0,
 	timer : '',
-	shuffleCounter : 50
+	shuffleCounter : 50,
+	isNotPaused : true
 };

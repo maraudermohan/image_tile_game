@@ -43,6 +43,13 @@ export const moveTile = (index, top, left) => {
   };
 }
 
+export const toggle_pause = (bool) => {
+  return {
+    type: 'TOGGLE_PAUSE',
+    bool
+  };
+}
+
 export const updateTimer = (mins, secs) => {
   return {
     type: 'UPDATE_TIMER',

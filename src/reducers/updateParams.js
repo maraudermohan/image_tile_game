@@ -19,6 +19,9 @@ export default function updateParams(state = initialState, action) {
 	case 'ACKNOWLEDGE_TIMER':
 		return Object.assign({},state,{hasTimerStarted: action.bool})
 
+	case 'TOGGLE_PAUSE':
+		return Object.assign({},state,{isNotPaused: action.bool})
+
 	case 'UPDATE_TIMER':
 		if ((action.mins == 0)&&(action.secs == 0)) {
 			return Object.assign({},state,{timer : ''})

@@ -31,14 +31,67 @@ div.appear {
 }
 .timerh3 {
 	display: none;
-	margin: 0 0 0 10px;
+	margin: 0 0 0 20px;
 	line-height: 1;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 0px 5px;
 }
 .timerh3.red {
 	color : red;
 }
 .btn.reset-btn {
 	display: none;
+}
+.pause-btn {
+	display: none;
+	width: 40px;
+    height: 38px;
+    padding: 6px 0 6px 0;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	align-items: center;
+	border-radius: 5px;
+	border: 1px solid transparent;
+	position: relative;
+	left: -2px;
+}
+.pause-btn:hover {
+	background-color: #286090;
+    border-color: #204d74;
+}
+.icon-pause {
+	background-color: white;
+    height: 23px;
+    width: 6px;
+    display: inline-block;
+}
+.pause1 {
+    margin-right: 3px;
+}
+.pause2 {
+    margin-left: 3px;
+}
+.pause-btn.resume .pause1{
+	width: 0;
+    height: 0;
+    background-color: transparent;
+    border-left: 22px solid white;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    margin: 0px; 
+}
+.pause-btn.resume .pause2{
+	width: 0;
+    height: 0;
+    border: 0;
+    margin: 0;
 }
 .inputURL {
 	width: 40%;
@@ -84,6 +137,11 @@ div.game-area {
 	border-radius: 5px;
 	border: thin solid black;
 	line-height: 0;
+}
+.game-area.ready .game-tile.left, .game-area.ready .game-tile.right,
+.game-area.ready .game-tile.top, .game-area.ready .game-tile.bottom {
+	border: thin solid red;
+	cursor: pointer;
 }
 .game-area.not-ready .game-tile {
 	-webkit-transition: left 0.02s, top 0.02s;
