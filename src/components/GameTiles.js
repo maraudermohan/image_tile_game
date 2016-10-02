@@ -24,7 +24,7 @@ class GameTiles extends React.Component {
         if([37, 38, 39, 40].indexOf(e.which) > -1) {
           e.preventDefault();
         }
-        if((isGameReady)&&(isNotPaused)) {
+        if((isGameReady)&&(isNotPaused)&&($(".timerh3").css("display") != 'none')) {
             if ((e.which == 37)&&($(".game-tile.left").length)) {
               $(".game-tile.left").trigger("click");
             } else if ((e.which == 39)&&($(".game-tile.right").length)) {
