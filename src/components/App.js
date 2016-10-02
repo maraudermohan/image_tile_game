@@ -17,7 +17,6 @@ class App extends React.Component {
     document.getElementsByClassName("disappear")[0].style.display = "block";
     document.getElementsByClassName("reset-btn")[0].style.display = "none";
     document.getElementsByClassName("timerh3")[0].style.display = "none";
-    document.getElementsByClassName("timerh3")[0].style.display = "none";
   }
 
   disableBtn() {
@@ -61,6 +60,7 @@ class App extends React.Component {
     (document.getElementsByClassName("pause-btn")[0].style.display == "inline-block")) {
       document.getElementsByClassName("pause-btn")[0].style.display = "none";
       document.getElementsByClassName("timerh3")[0].style.display = "none";
+      document.getElementsByClassName("hint-text")[0].style.display = "none";
     }
   }
   //toggle isNotPaused boolean value
@@ -136,6 +136,7 @@ class App extends React.Component {
                 <span className="icon-pause pause2"></span>
               </span>
           </div>
+          <p className="hint-text">Click on the Red-highlighted tiles or use arrow keys to start solving.</p>
           {this.props.params.links.map(this.imageOptions.bind(this)) }
           {this.renderGameArea()}
       </div>

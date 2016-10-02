@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/index';
+import $ from 'jquery';
 
 class GameTiles extends React.Component {
   constructor(props, context) {
@@ -13,9 +14,28 @@ class GameTiles extends React.Component {
 
   componentDidUpdate() {
     this.shuffleCounter = parseInt(this.props.params.shuffleCounter,10);
+    var isGameReady = this.props.params.isGameReady ,
+    isNotPaused = this.props.params.isNotPaused;
     if(this.shuffleCounter > -1) {
       setTimeout(function() {document.getElementsByClassName("empty")[0].click()},250);
     }
+    $("body").off("keydown");
+    $("body").keydown(function(e) {
+        if([37, 38, 39, 40].indexOf(e.which) > -1) {
+          e.preventDefault();
+        }
+        if((isGameReady)&&(isNotPaused)) {
+            if ((e.which == 37)&&($(".game-tile.left").length)) {
+              $(".game-tile.left").trigger("click");
+            } else if ((e.which == 39)&&($(".game-tile.right").length)) {
+              $(".game-tile.right").trigger("click");
+            } else if ((e.which == 38)&&($(".game-tile.top").length)) {
+              $(".game-tile.top").trigger("click");
+            } else if ((e.which == 40)&&($(".game-tile.bottom").length)) {
+              $(".game-tile.bottom").trigger("click");
+            }
+        }
+    });
   }
 
   renderTile(value , index) {
@@ -164,6 +184,7 @@ class GameTiles extends React.Component {
       this.props.dispatch(actions.updateTimer(5,1));
       document.getElementsByClassName("timerh3")[0].style.display = "inline-block";
       document.getElementsByClassName("pause-btn")[0].style.display = "inline-block";
+      document.getElementsByClassName("hint-text")[0].style.display = "block";
       this.props.dispatch(actions.decrementCounter(this.shuffleCounter-1));
       document.getElementsByClassName("game-area")[0].classList.remove("not-ready");
       document.getElementsByClassName("game-area")[0].classList.add("ready");

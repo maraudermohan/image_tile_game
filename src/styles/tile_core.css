@@ -46,6 +46,9 @@ div.appear {
 .btn.reset-btn {
 	display: none;
 }
+p.hint-text {
+	display: none;
+}
 .pause-btn {
 	display: none;
 	width: 40px;
